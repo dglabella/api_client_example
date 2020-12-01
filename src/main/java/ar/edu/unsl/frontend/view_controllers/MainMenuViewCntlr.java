@@ -1,28 +1,23 @@
 package ar.edu.unsl.frontend.view_controllers;
 
-import java.io.File;
 import java.net.URL;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.stage.FileChooser;
 import java.util.function.Predicate;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import ar.edu.unsl.backend.util.CustomAlert;
-import org.apache.commons.io.FilenameUtils;
-import javafx.scene.control.Alert.AlertType;
 import ar.edu.unsl.backend.model.entities.User;
 import ar.edu.unsl.backend.model.services.UserService;
 import javafx.scene.control.cell.PropertyValueFactory;
+import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
 
-public class MainMenuViewCntlr extends TableViewCntlr
+public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubscriber
 {
     private int USERS_TABLE_NUMBER;
 
@@ -71,7 +66,7 @@ public class MainMenuViewCntlr extends TableViewCntlr
     @Override
     protected void manualInitialize()
     {
-
+        
     }
 
     // ================================= public methods ==================================
@@ -135,6 +130,18 @@ public class MainMenuViewCntlr extends TableViewCntlr
                 }
             });
         });
+    }
+
+    @Override
+    public void showUser(User user)
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void showUsers(List<User> users)
+    {
+        this.loadData(this.USERS_TABLE_NUMBER, users);
     }
 
     // ================================= service subscriber methods =================================
