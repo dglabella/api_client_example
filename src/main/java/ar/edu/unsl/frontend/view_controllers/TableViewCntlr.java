@@ -1,4 +1,4 @@
-package vitniksys.frontend.view_controllers;
+package ar.edu.unsl.frontend.view_controllers;
 
 import java.net.URL;
 import java.util.List;

@@ -1,4 +1,4 @@
-package vitniksys.backend.model.interfaces;
+package ar.edu.unsl.backend.model.interfaces;
 
 import java.util.List;
 

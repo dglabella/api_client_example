@@ -1,4 +1,4 @@
-package vitniksys.frontend.view_controllers;
+package ar.edu.unsl.frontend.view_controllers;
 
 import java.net.URL;
 import javafx.fxml.FXML;
@@ -7,9 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
-import vitniksys.backend.model.services.PreferentialClientService;
 
-public class ClientRegisterViewCntlr extends ViewCntlr
+public class UserFormViewCntlr extends ViewCntlr
 {
     // ================================= FXML variables =================================
     @FXML private TextField id;
@@ -119,41 +118,10 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     }
 
     @FXML
-    private void leaderIdCheck()
-    {
-        if(this.getExpressionChecker().onlyNumbers(this.leaderId.getText(), true))
-        {
-            this.invalidLeaderId.setVisible(false);
-        }
-        else
-        {
-            this.invalidLeaderId.setText("Dato invalido");
-            this.invalidLeaderId.setVisible(true);
-        }
-    }
-
-    @FXML
     private void registerButtonPressed() throws Exception
     {
-        ((PreferentialClientService)this.getService(0)).registerClient(this.id.getText(), this.dni.getText(), this.name.getText(),
-            this.lastName.getText(), this.location.getText(), this.birthdate.getValue(), this.email.getText(),
-            this.phoneNumber.getText(), this.isLeader.isSelected(), this.leaderId.getText());
-    }
 
-    @FXML
-    private void isLeaderCheckBoxPressed() throws Exception
-    {
-        if(this.isLeader.isSelected())
-        {
-            this.leaderId.clear();
-            this.leaderId.setDisable(true);
-        }
-        else
-        {
-            this.leaderId.setDisable(false);
-        }
     }
-
     // ================================= private methods =================================
 
 

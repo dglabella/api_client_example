@@ -1,8 +1,8 @@
-package vitniksys.backend.model.services;
+package ar.edu.unsl.backend.model.services;
 
 //import javafx.concurrent.Task;
-import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.frontend.views_subscriber.ServiceSubscriber;
+import ar.edu.unsl.backend.util.ExpressionChecker;
+import ar.edu.unsl.frontend.service_subscribers.ServiceSubscriber;
 
 public abstract class Service
 {

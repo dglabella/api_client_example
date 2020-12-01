@@ -1,7 +1,7 @@
-package vitniksys.frontend.view_controllers;
+package ar.edu.unsl.frontend.view_controllers;
 
 import java.net.URL;
-import vitniksys.App;
+import ar.edu.unsl.App;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import vitniksys.backend.util.CustomAlert;
+import ar.edu.unsl.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.backend.model.services.Service;
-import vitniksys.frontend.views_subscriber.ServiceSubscriber;
+import ar.edu.unsl.backend.util.ExpressionChecker;
+import ar.edu.unsl.backend.model.services.Service;
+import ar.edu.unsl.frontend.service_subscribers.ServiceSubscriber;
 
 public abstract class ViewCntlr implements Initializable, ServiceSubscriber
 {

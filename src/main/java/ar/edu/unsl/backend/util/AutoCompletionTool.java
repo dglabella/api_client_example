@@ -1,4 +1,4 @@
-package vitniksys.backend.util;
+package ar.edu.unsl.backend.util;
 
 import java.util.List;
 import javafx.scene.layout.Pane;

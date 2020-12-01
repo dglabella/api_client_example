@@ -1,4 +1,4 @@
-package vitniksys.frontend.view_controllers;
+package ar.edu.unsl.frontend.view_controllers;
 
 import java.io.File;
 import java.net.URL;
@@ -15,166 +15,53 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import vitniksys.backend.util.CustomAlert;
+import ar.edu.unsl.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.model.entities.Campaign;
-import vitniksys.backend.util.DetailFileInterpreter;
+import ar.edu.unsl.backend.model.entities.User;
+import ar.edu.unsl.backend.model.services.UserService;
 import javafx.scene.control.cell.PropertyValueFactory;
-import vitniksys.backend.model.services.CampaignService;
-import vitniksys.backend.model.services.CatalogueService;
-import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.services.PreferentialClientService;
-import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
-import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
-public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber, CampaignServiceSubscriber
+public class MainMenuViewCntlr extends TableViewCntlr
 {
-    private int PREF_CLIENTS_TABLE_NUMBER;
+    private int USERS_TABLE_NUMBER;
 
     // ================================= FXML variables =================================
-    @FXML private TableView<PreferentialClient> prefClients;
+    @FXML private TableView<User> users;
 
-    @FXML private TableColumn<PreferentialClient, Integer> id;
-    @FXML private TableColumn<PreferentialClient, Long> dni;
-    @FXML private TableColumn<PreferentialClient, String> name;
-    @FXML private TableColumn<PreferentialClient, String> lastName;
-    @FXML private TableColumn<PreferentialClient, String> email;
-    @FXML private TableColumn<PreferentialClient, Long> phoneNumber;
+    @FXML private TableColumn<User, Integer> id;
+    @FXML private TableColumn<User, Long> dni;
+    @FXML private TableColumn<User, String> name;
+    @FXML private TableColumn<User, String> lastName;
+    @FXML private TableColumn<User, String> email;
+    @FXML private TableColumn<User, Long> phoneNumber;
 
     @FXML private TextField searchField;
     @FXML private ImageView catButton;
 
     // ================================== FXML methods ==================================
     @FXML
-    private void openManagementButtonPressed()
+    private void openUserDataButtonPressed()
     {
-        if(this.prefClients.getSelectionModel().getSelectedIndex() > -1)
+        if(this.users.getSelectionModel().getSelectedIndex() > -1)
         {
-            PreferentialClient selectedPrefClient = this.prefClients.getItems().get(this.prefClients.getSelectionModel().getSelectedIndex());
-            ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new CampaignService(), new PreferentialClientService());
-            viewCntlr.getStage().show();
 
-            try
-            {
-                ((PreferentialClientServiceSubscriber)viewCntlr).showQueriedPrefClient(selectedPrefClient);
-            }
-            catch (Exception exception)
-            {
-                exception.printStackTrace();
-            }
-
-            viewCntlr.manualInitialize();
         }
     }
 
     @FXML
-    private void selectPrefClient(MouseEvent event)
+    private void selectUser(MouseEvent event)
     {
         if(event.getClickCount() == 2)
         {
-            this.openManagementButtonPressed();
+            this.openUserDataButtonPressed();
         }
     }
 
     @FXML
-    private void idOnKeyTyped()
+    private void newUserButtonPressed()
     {
-
-    }
-
-    @FXML
-    private void idOnAction() throws Exception
-    {
-        searchButtonPressed();
-    }
-
-    @FXML
-    private void textFieldCatOnAction() throws Exception
-    {
-        searchButtonPressed();
-    }
-
-    @FXML
-    private void catButtonOnMouseEntered()
-    {
-        catButton.setFitHeight(catButton.getFitHeight()+10);
-        catButton.setFitWidth(catButton.getFitWidth()+10);
-    }
-
-    @FXML
-    private void catButtonOnMouseExited()
-    {
-        catButton.setFitHeight(catButton.getFitHeight()-10);
-        catButton.setFitWidth(catButton.getFitWidth()-10);
-    }
-
-    @FXML
-    private void catButtonOnMousePressed() throws Exception
-    {
-        this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueService()).getStage().show();
-    }
-
-    @FXML
-    private void searchButtonPressed() throws Exception
-    {
-        
-    }
-
-    @FXML
-    private void searchCampButtonPressed()
-    {
-        ViewCntlr viewCntlr = this.createStage("Consultar campaña", "searchCamps", new CampaignService());
-        viewCntlr.getStage().show();
-        viewCntlr.manualInitialize();
-    }
-
-    @FXML
-    private void newCpButtonPressed()
-    {
-        this.createStage("Formulario de registro de Cliente preferencial", "clientRegister", new PreferentialClientService()).getStage().show();
-    }
-
-    @FXML
-    private void newCampButtonPressed()
-    {
-        ViewCntlr viewCntlr = this.createStage("Crear campaña", "campRegister", new CampaignService());
-        viewCntlr.getStage().show();
-        viewCntlr.manualInitialize();
-    }
-
-    @FXML
-    private void addDetailFileButtonPressed()
-    {
-        FileChooser fileChooser = new FileChooser();
-        File detail = fileChooser.showOpenDialog(null);
-        
-        if (detail != null)
-        {
-            if (FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
-            {
-                new CustomAlert(AlertType.CONFIRMATION, "CONFIRMAR", "El archivo seleccionado es: " + detail.getAbsolutePath() +
-                    "\nEsta seguro que desea cargar este detalle?").customShow().ifPresent(response ->
-                    {
-                        if (response == ButtonType.OK)
-                        {
-                            try
-                            {
-                                ((CampaignService)this.getService(1)).registerOrders(detail);
-                            }
-                            catch(Exception exception)
-                            {
-                                exception.printStackTrace();
-                            }
-                        }
-                    });
-            }
-            else
-            {
-                new CustomAlert(AlertType.ERROR, "ERROR", "El archivo no tiene extension csv."+
-                    "\nSelecciones nuevamente o el archivo será descartado.").customShow();
-            }
-        }
+        this.createStage("User registration form", "userForm", new UserService()).getStage().show();
     }
 
     // ================================= private methods =================================
@@ -184,7 +71,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @Override
     protected void manualInitialize()
     {
-        ((PreferentialClientService)this.getService(0)).searchPreferentialClients();
+
     }
 
     // ================================= public methods ==================================
@@ -196,7 +83,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @Override
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        this.prefClients.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        this.users.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         List<TableColumn> columns = new ArrayList<>();
         columns.add(this.id);
@@ -215,8 +102,8 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         propertiesValues.add(new PropertyValueFactory<>("phoneNumber"));
 
 
-        this.registerTable(this.prefClients);
-        this.PREF_CLIENTS_TABLE_NUMBER = 0; // because is the first table registered.
+        this.registerTable(this.users);
+        this.USERS_TABLE_NUMBER = 0; // because is the first table registered.
         
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
@@ -225,18 +112,18 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         //Setting the filter binding to the text field
         this.searchField.textProperty().addListener((obs, oldValue, newValue) -> 
         {
-            this.filterTable(this.PREF_CLIENTS_TABLE_NUMBER, new Predicate<PreferentialClient>()
+            this.filterTable(this.USERS_TABLE_NUMBER, new Predicate<User>()
             {
                 @Override
-                public boolean test(PreferentialClient prefClient)
+                public boolean test(User user)
                 {
                     boolean ret;
-                    if (newValue.isBlank() || String.valueOf(prefClient.getId()).contains(newValue) ||
-                        (prefClient.getDni() != null && String.valueOf(prefClient.getDni()).contains(newValue)) ||
-                        prefClient.getName().contains(newValue.toUpperCase()) ||
-                        String.valueOf(prefClient.getLastName()).contains(newValue.toUpperCase()) ||
-                        (prefClient.getEmail() != null && prefClient.getEmail().contains(newValue)) ||
-                        (prefClient.getPhoneNumber() != null && String.valueOf(prefClient.getPhoneNumber()).contains(newValue)))
+                    if (newValue.isBlank() || String.valueOf(user.getId()).contains(newValue) ||
+                        (user.getDni() != null && String.valueOf(user.getDni()).contains(newValue)) ||
+                        user.getName().contains(newValue.toUpperCase()) ||
+                        String.valueOf(user.getLastName()).contains(newValue.toUpperCase()) ||
+                        (user.getEmail() != null && user.getEmail().contains(newValue)) ||
+                        (user.getPhoneNumber() != null && String.valueOf(user.getPhoneNumber()).contains(newValue)))
                     {
                         ret = true;
                     }
@@ -250,26 +137,5 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         });
     }
 
-    // ================================= preferential client service subscriber methods =================================
-    public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
-    {
-
-    }
-
-    public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
-    {
-        this.loadData(this.PREF_CLIENTS_TABLE_NUMBER, prefClients);
-    }
-
-    @Override
-    public void showQueriedCamp(Campaign camp) throws Exception
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void showQueriedCamps(List<Campaign> camps) throws Exception
-    {
-        // TODO Auto-generated method stub
-    }
+    // ================================= service subscriber methods =================================
 }

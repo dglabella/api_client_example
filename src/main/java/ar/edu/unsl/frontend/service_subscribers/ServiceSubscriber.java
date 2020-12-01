@@ -1,7 +1,7 @@
-package vitniksys.frontend.views_subscriber;
+package ar.edu.unsl.frontend.service_subscribers;
 
-import vitniksys.backend.util.CustomAlert;
-import vitniksys.backend.model.services.Service;
+import ar.edu.unsl.backend.util.CustomAlert;
+import ar.edu.unsl.backend.model.services.Service;
 
 public interface ServiceSubscriber
 {
