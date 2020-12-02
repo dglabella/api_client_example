@@ -1,4 +1,4 @@
-package ar.edu.unsl.backend.model.entities;
+package ar.edu.unsl.backend.util;
 
 import java.util.List;
 
