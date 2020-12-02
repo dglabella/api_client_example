@@ -7,12 +7,11 @@ import ar.edu.unsl.backend.util.CustomAlert;
 import ar.edu.unsl.backend.model.entities.User;
 import ar.edu.unsl.backend.model.persistence.UserOperator;
 import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserService extends Service implements Callback<User>
+public class UserService extends Service implements Callback<List<User>>
 {
     /*
     public void searchUsers() throws Exception
@@ -46,34 +45,25 @@ public class UserService extends Service implements Callback<User>
 
     public void searchUsers() throws Exception
     {
-        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Wait a moment while the process is done.");
+        UserOperator.getOperator(this).findAll();
+    }
 
-        List<User> users = UserOperator.getOperator().findAll(this);
-
-        getServiceSubscriber().closeProcessIsWorking(customAlert);
-        if(users != null)
+    @Override
+    public void onResponse(Call<List<User>> call, Response<List<User>> response)
+    {
+        if(response.isSuccessful())
         {
-            ((UserServiceSubscriber)getServiceSubscriber()).showUsers(users);
+            ((UserServiceSubscriber)this.getServiceSubscriber()).showUsers(response.body());
         }
         else
         {
-            getServiceSubscriber().showNoResult("No users registered");
+            this.getServiceSubscriber().showError("Error has occurred", response.errorBody().toString(), new Exception("error response"));
         }
-
-        return null;
     }
 
     @Override
-    public void onResponse(Call<User> call, Response<User> response)
+    public void onFailure(Call<List<User>> call, Throwable t)
     {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onFailure(Call<User> call, Throwable t)
-    {
-        // TODO Auto-generated method stub
-
+        this.getServiceSubscriber().showError("User services fail on retrieve a response: "+t.getLocalizedMessage());
     }
 }

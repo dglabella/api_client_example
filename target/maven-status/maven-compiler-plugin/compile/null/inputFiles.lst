@@ -7,10 +7,14 @@ C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\backend\model\services\UserService.java
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\frontend\view_controllers\ViewCntlr.java
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\frontend\service_subscribers\UserServiceSubscriber.java
+C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\backend\util\UserContainer.java
+C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\backend\util\Metatada.java
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\frontend\view_controllers\UserFormViewCntlr.java
+C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\backend\util\Data.java
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\frontend\view_controllers\MainMenuViewCntlr.java
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\backend\util\ExpressionChecker.java
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\App.java
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\backend\model\persistence\UserOperator.java
+C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\backend\model\repositories\UserRepository.java
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\frontend\service_subscribers\ServiceSubscriber.java
 C:\Users\dglab\Documents\vscodeProyects\api_client_example\src\main\java\ar\edu\unsl\backend\model\services\Service.java

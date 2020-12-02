@@ -2,13 +2,16 @@ package ar.edu.unsl.backend.model.persistence;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import javax.xml.stream.FactoryConfigurationError;
 import ar.edu.unsl.App;
 import ar.edu.unsl.backend.model.entities.User;
 import ar.edu.unsl.backend.model.interfaces.IUserOperator;
+import ar.edu.unsl.backend.model.repositories.UserRepository;
+import ar.edu.unsl.backend.model.services.UserService;
+import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -19,38 +22,66 @@ public class UserOperator implements IUserOperator
     private final static int REQUEST_WRITE_TIMEOUT_TOLERANCE = 5;
 
     public final static String ID = "id";
-    public final static String RESOURCE = "users";
-    public final static String SINGLE_RESOURCE = RESOURCE+"/{"+ID+"}";
+    public final static String RESOURCE = "/users";
+    public final static String SINGLE_RESOURCE = RESOURCE + "/{" + ID + "}";
 
     private static UserOperator operator;
 
-    private UserOperator()
+    private UserService userService;
+    private UserRepository userRepository;
+    private OkHttpClient okHttpClient;
+    private Retrofit retrofit;
+
+    private UserOperator(UserService userService)
     {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        // HttpClient and Rest Client can be inyected for more de
+        this.okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(REQUEST_CONNECT_TIMEOUT_TOLERANCE, TimeUnit.SECONDS)
                 .readTimeout(REQUEST_READ_TIMEOUT_TOLERANCE, TimeUnit.SECONDS)
                 .writeTimeout(REQUEST_WRITE_TIMEOUT_TOLERANCE, TimeUnit.SECONDS)
                 .build();
 
-        Retrofit retrofit = new Retrofit.Builder()
+        this.retrofit = new Retrofit.Builder()
                 .baseUrl(App.API_HOSTNAME)
-                .client(okHttpClient)
+                .client(this.okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        this.userRepository = this.retrofit.create(UserRepository.class);
     }
 
-    public static UserOperator getOperator()
+    public static UserOperator getOperator(UserService userService)
     {
-        if(UserOperator.operator == null)
-            UserOperator.operator = new UserOperator();
+        if (UserOperator.operator == null)
+            UserOperator.operator = new UserOperator(userService);
 
         return UserOperator.operator;
     }
 
     @Override
-    public User insert(User entity) throws Exception
+    public User insert(User user) throws Exception
     {
-        // TODO Auto-generated method stub
+        this.userRepository.postUser(user).enqueue(new Callback<User>()
+        {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response)
+            {
+                if(response.isSuccessful())
+                {
+                    ((UserServiceSubscriber)userService.getServiceSubscriber()).showUser(response.body());
+                }
+                else
+                {
+                    userService.getServiceSubscriber().showError("User registration error", response.errorBody().toString(), new Exception("Error response"));
+                }
+            };
+            
+            @Override
+            public void onFailure(Call<User> call, Throwable throwable)
+            {
+                userService.getServiceSubscriber().showError("Post user request Fail", null, new Exception(throwable));
+            };
+        });
         return null;
     }
 
@@ -71,18 +102,57 @@ public class UserOperator implements IUserOperator
     @Override
     public List<User> findAll() throws Exception
     {
-        JsonPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JsonPlaceHolderAPI.class);
-        Call<RegistroCellPhone> call = jsonPlaceHolderAPI.postRegister(registroCellPhone);
-
-        //This will call (asynchronouslly)the OnResponse/OnErrorResponse method in Controller
-        call.enqueue(registroCellPhoneCallBack);
+        this.userRepository.findAll().enqueue
+        (
+            new Callback<List<User>>()
+            {
+                @Override
+                public void onResponse(Call<List<User>> call, Response<List<User>> response)
+                {
+                    if(response.isSuccessful())
+                    {
+                        ((UserServiceSubscriber)userService.getServiceSubscriber()).showUsers(response.body());
+                    }
+                    else
+                    {
+                        userService.getServiceSubscriber().showError("Cannot obtain a users list", response.errorBody().toString(), new Exception("Error response"));
+                    }
+                };
+                
+                @Override
+                public void onFailure(Call<List<User>> call, Throwable throwable)
+                {
+                    userService.getServiceSubscriber().showError("Find all user request fail", null, new Exception(throwable));
+                };
+            }
+        );
         return null;
     }
 
     @Override
     public User find(Integer id)
     {
-        // TODO Auto-generated method stub
+        this.userRepository.find(id).enqueue(new Callback<User>()
+        {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response)
+            {
+                if(response.isSuccessful())
+                {
+                    ((UserServiceSubscriber)userService.getServiceSubscriber()).showUser(response.body());
+                }
+                else
+                {
+                    userService.getServiceSubscriber().showError("Cannot obtain user "+id, response.errorBody().toString(), new Exception("Error response"));
+                }
+            };
+            
+            @Override
+            public void onFailure(Call<User> call, Throwable throwable)
+            {
+                userService.getServiceSubscriber().showError("find user request fail", null, new Exception(throwable));
+            };
+        });
         return null;
     }
 
@@ -91,5 +161,5 @@ public class UserOperator implements IUserOperator
     {
         // TODO Auto-generated method stub
         return null;
-    }      
+    }
 }

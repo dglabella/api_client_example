@@ -12,25 +12,19 @@ public class UserFormViewCntlr extends ViewCntlr
 {
     // ================================= FXML variables =================================
     @FXML private TextField id;
-    @FXML private TextField dni;
-    @FXML private TextField name;
-    @FXML private TextField lastName;
-    @FXML private TextField location;
-    @FXML private TextField email;
-    @FXML private TextField phoneNumber;
-    @FXML private TextField leaderId;
-
     @FXML private Label invalidId;
-    @FXML private Label invalidDni;
     @FXML private Label invalidName;
-    @FXML private Label invalidLastName;
-    @FXML private Label invalidEmail; 
-    @FXML private Label invalidPhoneNumber;
-    @FXML private Label invalidLeaderId;
-
+    @FXML private TextField name;
+    @FXML private Label invalidUserName;
+    @FXML private TextField userName;
+    @FXML private Label invalidWebsite;
+    @FXML private TextField website;
     @FXML private DatePicker birthdate;
-
-    @FXML private CheckBox isLeader;
+    @FXML private TextField email;
+    @FXML private Label invalidEmail;
+    @FXML private TextField phone;
+    @FXML private Label invalidPhone;
+    @FXML private Label invalidLeaderId;
 
     // ================================= FXML methods =================================
     @FXML

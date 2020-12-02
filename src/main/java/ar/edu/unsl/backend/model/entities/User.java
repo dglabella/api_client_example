@@ -3,11 +3,11 @@ package ar.edu.unsl.backend.model.entities;
 public class User
 {
     private Integer id;
-    private Integer dni;
     private String name;
-    private String lastName;
+    private String username;
     private String email;
-    private Long phoneNumber;
+    private String phone;
+    private String website;
 
     public Integer getId()
     {
@@ -17,16 +17,6 @@ public class User
     public void setId(Integer id)
     {
         this.id = id;
-    }
-
-    public Integer getDni()
-    {
-        return this.dni;
-    }
-
-    public void setDni(Integer dni)
-    {
-        this.dni = dni;
     }
 
     public String getName()
@@ -39,14 +29,14 @@ public class User
         this.name = name;
     }
 
-    public String getLastName()
+    public String getUserName()
     {
-        return this.lastName;
+        return this.username;
     }
 
-    public void setLastName(String lastName)
+    public void setUserName(String username)
     {
-        this.lastName = lastName;
+        this.username = username;
     }
 
     public String getEmail()
@@ -59,13 +49,23 @@ public class User
         this.email = email;
     }
 
-    public Long getPhoneNumber()
+    public String getPhone()
     {
-        return this.phoneNumber;
+        return this.phone;
     }
 
-    public void setPhoneNumber(Long phoneNumber)
+    public void setPhone(String phone)
     {
-        this.phoneNumber = phoneNumber;
+        this.phone = phone;
+    }
+
+    public String getWebsite()
+    {
+        return this.website;
+    }
+
+    public void setWebsite(String website)
+    {
+        this.website = website;
     }
 }

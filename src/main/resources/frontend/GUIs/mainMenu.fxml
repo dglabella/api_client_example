@@ -24,12 +24,12 @@
             </Button>
             <TableView fx:id="users" layoutX="5.0" layoutY="40.0" onMouseClicked="#selectUser" prefHeight="245.0" prefWidth="940.0">
               <columns>
-                <TableColumn fx:id="id" minWidth="60.0" prefWidth="60.0" resizable="false" text="Id" />
-                  <TableColumn fx:id="dni" minWidth="100.0" prefWidth="100.0" resizable="false" text="Dni" />
-                <TableColumn fx:id="name" minWidth="240.0" prefWidth="220.0" resizable="false" text="Name" />
-                  <TableColumn fx:id="lastName" minWidth="220.0" prefWidth="220.0" resizable="false" text="Last name" />
-                  <TableColumn fx:id="email" minWidth="220.0" prefWidth="220.0" resizable="false" text="Email" />
-                  <TableColumn fx:id="phoneNumber" minWidth="100.0" prefWidth="100.0" resizable="false" text="phone" />
+                <TableColumn fx:id="id" minWidth="60.0" prefWidth="60.0" text="Id" />
+                  <TableColumn fx:id="name" minWidth="100.0" prefWidth="150.0" text="Name" />
+                <TableColumn fx:id="userName" minWidth="100.0" prefWidth="150.0" text="User Name" />
+                  <TableColumn fx:id="email" minWidth="100.0" prefWidth="220.0" text="Email" />
+                  <TableColumn fx:id="phone" minWidth="100.0" prefWidth="170.0" text="phone" />
+                  <TableColumn fx:id="website" minWidth="100.0" prefWidth="188.0" text="Website" />
               </columns>
             </TableView>
          </children>
@@ -102,7 +102,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="80.0" prefWidth="456.0" text="Client Example" textFill="WHITE">
+      <Label layoutX="10.0" layoutY="12.0" prefHeight="80.0" prefWidth="456.0" text="Client Example" textFill="WHITE">
          <font>
             <Font size="60.0" />
          </font>

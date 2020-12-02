@@ -25,11 +25,11 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
     @FXML private TableView<User> users;
 
     @FXML private TableColumn<User, Integer> id;
-    @FXML private TableColumn<User, Long> dni;
     @FXML private TableColumn<User, String> name;
-    @FXML private TableColumn<User, String> lastName;
+    @FXML private TableColumn<User, String> userName;
     @FXML private TableColumn<User, String> email;
-    @FXML private TableColumn<User, Long> phoneNumber;
+    @FXML private TableColumn<User, String> phone;
+    @FXML private TableColumn<User, String> website;
 
     @FXML private TextField searchField;
     @FXML private ImageView catButton;
@@ -66,7 +66,14 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
     @Override
     protected void manualInitialize()
     {
-        
+        try
+        {
+            ((UserService)this.getService(0)).searchUsers();   
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
     }
 
     // ================================= public methods ==================================
@@ -82,19 +89,19 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
 
         List<TableColumn> columns = new ArrayList<>();
         columns.add(this.id);
-        columns.add(this.dni);
         columns.add(this.name);
-        columns.add(this.lastName);
+        columns.add(this.userName);
         columns.add(this.email);
-        columns.add(this.phoneNumber);
+        columns.add(this.phone);
+        columns.add(this.website);
 
         List<PropertyValueFactory> propertiesValues = new ArrayList<>();
         propertiesValues.add(new PropertyValueFactory<>("id"));
-        propertiesValues.add(new PropertyValueFactory<>("dni"));
         propertiesValues.add(new PropertyValueFactory<>("name"));
-        propertiesValues.add(new PropertyValueFactory<>("lastName"));
+        propertiesValues.add(new PropertyValueFactory<>("userName"));
         propertiesValues.add(new PropertyValueFactory<>("email"));
-        propertiesValues.add(new PropertyValueFactory<>("phoneNumber"));
+        propertiesValues.add(new PropertyValueFactory<>("phone"));
+        propertiesValues.add(new PropertyValueFactory<>("website"));
 
 
         this.registerTable(this.users);
@@ -105,6 +112,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
 
 
         //Setting the filter binding to the text field
+        
         this.searchField.textProperty().addListener((obs, oldValue, newValue) -> 
         {
             this.filterTable(this.USERS_TABLE_NUMBER, new Predicate<User>()
@@ -113,12 +121,12 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
                 public boolean test(User user)
                 {
                     boolean ret;
-                    if (newValue.isBlank() || String.valueOf(user.getId()).contains(newValue) ||
-                        (user.getDni() != null && String.valueOf(user.getDni()).contains(newValue)) ||
-                        user.getName().contains(newValue.toUpperCase()) ||
-                        String.valueOf(user.getLastName()).contains(newValue.toUpperCase()) ||
-                        (user.getEmail() != null && user.getEmail().contains(newValue)) ||
-                        (user.getPhoneNumber() != null && String.valueOf(user.getPhoneNumber()).contains(newValue)))
+                    if (newValue.isBlank() || String.valueOf(user.getId()).toUpperCase().contains(newValue.toUpperCase()) ||
+                        (user.getName() != null && user.getName().toUpperCase().contains(newValue.toUpperCase())) ||
+                        (user.getUserName() != null && user.getUserName().toUpperCase().contains(newValue.toUpperCase())) ||
+                        (user.getEmail() != null && user.getEmail().toUpperCase().contains(newValue.toUpperCase())) ||
+                        (user.getPhone() != null && user.getPhone().toUpperCase().contains(newValue.toUpperCase())) ||
+                        (user.getWebsite() != null && user.getWebsite().toUpperCase().contains(newValue.toUpperCase())))
                     {
                         ret = true;
                     }

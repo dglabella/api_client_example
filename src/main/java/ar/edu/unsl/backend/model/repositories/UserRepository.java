@@ -17,9 +17,8 @@ public interface UserRepository
     Call<List<User>> findAll();
 
     @GET(UserOperator.SINGLE_RESOURCE)
-    Call<User> getUser(@Path(UserOperator.ID) Integer id);
-
+    Call<User> find(@Path(UserOperator.ID) Integer id);
 
     @POST(UserOperator.RESOURCE)
-    Call<User> postRegister(@Body User user);
+    Call<User> postUser(@Body User user);
 }
