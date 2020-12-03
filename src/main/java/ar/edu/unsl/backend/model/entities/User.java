@@ -1,5 +1,8 @@
 package ar.edu.unsl.backend.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User
 {
     private Integer id;
@@ -35,6 +38,16 @@ public class User
     }
 
     public void setUserName(String username)
+    {
+        this.username = username;
+    }
+
+    public String getUsername()
+    {
+        return this.username;
+    }
+
+    public void setUsername(String username)
     {
         this.username = username;
     }

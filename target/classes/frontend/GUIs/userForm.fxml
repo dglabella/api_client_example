@@ -41,41 +41,30 @@
       </AnchorPane>
       <AnchorPane layoutX="20.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="410.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <TextField fx:id="id" layoutX="188.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#idCheck" prefHeight="30.0" prefWidth="190.0" promptText="ID number" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="143.0" text="ID:" textAlignment="CENTER" textFill="#434343">
+            <TextField fx:id="name" layoutX="187.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#nameCheck" prefHeight="30.0" prefWidth="190.0" promptText="Jason" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" text="Bastian Schweinsteiger" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="143.0" text="Name" textAlignment="CENTER" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="invalidId" layoutX="189.0" layoutY="76.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
+            <Label fx:id="invalidName" layoutX="187.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="invalidName" layoutX="188.0" layoutY="146.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
-            <TextField fx:id="name" layoutX="188.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#nameCheck" prefHeight="30.0" prefWidth="190.0" promptText="Jason" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="143.0" text="Name" textAlignment="CENTER" textFill="#434343">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Label fx:id="invalidUserName" layoutX="187.0" layoutY="205.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
-            <TextField fx:id="userName" layoutX="188.0" layoutY="175.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#userNameCheck" prefHeight="30.0" prefWidth="190.0" promptText="JasonBourne723" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="175.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="143.0" text="User Name" textAlignment="CENTER" textFill="#434343">
+            <TextField fx:id="userName" layoutX="187.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#userNameCheck" prefHeight="30.0" prefWidth="190.0" promptText="JasonBourne723" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" text="Bastian.Schw-1984" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="143.0" text="User Name" textAlignment="CENTER" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
                <tooltip>
                   <Tooltip text="Username consists of alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase.&#10;Username allowed of the dot (.), underscore (_), and hyphen (-).&#10;The dot (.), underscore (_), or hyphen (-) must not be the first or last character.&#10;The dot (.), underscore (_), or hyphen (-) does not appear consecutively.&#10;The number of characters must be between 5 to 20." />
                </tooltip>
+            </Label>
+            <Label fx:id="invalidUserName" layoutX="187.0" layoutY="141.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
             </Label>
             <Label fx:id="invalidWebsite" layoutX="188.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
@@ -87,18 +76,18 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="website" layoutX="188.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" promptText="jason-academy.us" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <TextField fx:id="website" layoutX="188.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" promptText="jason-academy.us" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" text="bastian-schweinsteiger-academy.com" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="450.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="410.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="202.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="143.0" text="Birth date" textAlignment="CENTER" textFill="#434343">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="26.0" layoutY="248.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="143.0" text="Birth date" textAlignment="CENTER" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <DatePicker fx:id="birthdate" layoutX="183.0" layoutY="202.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" />
-            <TextField fx:id="email" layoutX="183.0" layoutY="49.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#emailCheck" prefHeight="30.0" prefWidth="190.0" promptText="anyemail@example.com" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <DatePicker fx:id="birthdate" layoutX="183.0" layoutY="248.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" />
+            <TextField fx:id="email" layoutX="183.0" layoutY="49.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#emailCheck" prefHeight="30.0" prefWidth="190.0" promptText="anyemail@example.com" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" text="bastian.schw1984@gmail.com" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="49.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="143.0" text="E-mail:" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
@@ -114,7 +103,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="phone" layoutX="183.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#phoneCheck" prefHeight="30.0" prefWidth="190.0" promptText="5554356378" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <TextField fx:id="phone" layoutX="183.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#phoneCheck" prefHeight="30.0" prefWidth="190.0" promptText="5554356378" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" text="5598511523" />
             <Label fx:id="invalidPhone" layoutX="183.0" layoutY="146.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />

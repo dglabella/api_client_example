@@ -1,5 +1,6 @@
 package ar.edu.unsl.backend.model.persistence;
 
+import java.io.IOException;
 import java.util.List;
 import retrofit2.Call;
 import ar.edu.unsl.App;
@@ -14,6 +15,7 @@ import ar.edu.unsl.backend.model.services.UserService;
 import ar.edu.unsl.backend.model.interfaces.IUserOperator;
 import ar.edu.unsl.backend.model.repositories.UserRepository;
 import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
+import javafx.application.Platform;
 
 public class UserOperator implements IUserOperator
 {
@@ -32,7 +34,7 @@ public class UserOperator implements IUserOperator
     private OkHttpClient okHttpClient;
     private Retrofit retrofit;
 
-    private UserOperator(UserService userService)
+    public UserOperator(UserService userService)
     {
         this.userService = userService;
 
@@ -40,62 +42,29 @@ public class UserOperator implements IUserOperator
         this.okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(REQUEST_CONNECT_TIMEOUT_TOLERANCE, TimeUnit.SECONDS)
                 .readTimeout(REQUEST_READ_TIMEOUT_TOLERANCE, TimeUnit.SECONDS)
-                .writeTimeout(REQUEST_WRITE_TIMEOUT_TOLERANCE, TimeUnit.SECONDS)
-                .build();
+                .writeTimeout(REQUEST_WRITE_TIMEOUT_TOLERANCE, TimeUnit.SECONDS).build();
 
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(App.API_HOSTNAME)
-                .client(this.okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        this.retrofit = new Retrofit.Builder().baseUrl(App.API_HOSTNAME).client(this.okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create()).build();
 
         this.userRepository = this.retrofit.create(UserRepository.class);
     }
-
-    public static UserOperator getOperator(UserService userService)
-    {
-        if (UserOperator.operator == null)
-            UserOperator.operator = new UserOperator(userService);
-
-        return UserOperator.operator;
-    }
-
-    /*
-    @Override
-    public User insert(User user) throws Exception
-    {
-        this.userRepository.postUser(user).enqueue(new Callback<User>()
-        {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response)
-            {
-                if(response.isSuccessful())
-                {
-                    ((UserServiceSubscriber)userService.getServiceSubscriber()).showUser(response.body());
-                }
-                else
-                {
-                    userService.getServiceSubscriber().showError("User registration error", response.errorBody().toString(), new Exception("Error response"));
-                }
-            };
-            
-            @Override
-            public void onFailure(Call<User> call, Throwable throwable)
-            {
-                userService.getServiceSubscriber().showError("Post user request Fail", null, new Exception(throwable));
-            };
-        });
-        return null;
-    }
-    */
 
     @Override
     public User insert(User user) throws Exception
     {
         User ret = null;
-        Response<User> response = this.userRepository.postUser(user).execute();
+        Response<User> response = null;
+        try
+        {
+            response = this.userRepository.postUser(user).execute();
+        }
+        catch (IOException exception)
+        {
+            exception.printStackTrace();
+        }
 
-        if(response.isSuccessful())
+        if(response != null && response.isSuccessful())
         {
             ret = response.body();
         }
@@ -152,7 +121,7 @@ public class UserOperator implements IUserOperator
     }
 
     @Override
-    public User find(Integer id)
+    public User find(Integer id) throws Exception
     {
         this.userRepository.find(id).enqueue(new Callback<User>()
         {
@@ -161,11 +130,25 @@ public class UserOperator implements IUserOperator
             {
                 if(response.isSuccessful())
                 {
-                    ((UserServiceSubscriber)userService.getServiceSubscriber()).showUser(response.body());
+                    Platform.runLater(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            ((UserServiceSubscriber)userService.getServiceSubscriber()).showUser(response.body());
+                        } 
+                    });
                 }
                 else
                 {
-                    userService.getServiceSubscriber().showError("Cannot obtain user "+id, response.errorBody().toString(), new Exception("Error response"));
+                    Platform.runLater(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            userService.getServiceSubscriber().showError("Cannot obtain user "+id, response.errorBody().toString(), new Exception("Error response"));
+                        } 
+                    });
                 }
             };
             
@@ -179,7 +162,7 @@ public class UserOperator implements IUserOperator
     }
 
     @Override
-    public User delete(Integer id)
+    public User delete(Integer id) throws Exception
     {
         // TODO Auto-generated method stub
         return null;

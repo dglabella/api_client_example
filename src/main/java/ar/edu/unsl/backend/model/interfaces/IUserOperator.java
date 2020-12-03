@@ -4,8 +4,7 @@ import ar.edu.unsl.backend.model.entities.User;
 
 public interface IUserOperator extends CrudOperator<User>
 {
-    User find(Integer id);
+    User find(Integer id) throws Exception;
 
-    User delete(Integer id);
-    
+    User delete(Integer id) throws Exception;
 }

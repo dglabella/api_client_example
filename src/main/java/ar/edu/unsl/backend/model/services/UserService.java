@@ -5,19 +5,30 @@ import javafx.concurrent.Task;
 import javafx.application.Platform;
 import ar.edu.unsl.backend.util.CustomAlert;
 import ar.edu.unsl.backend.model.entities.User;
+import ar.edu.unsl.backend.model.interfaces.IUserOperator;
 import ar.edu.unsl.backend.model.persistence.UserOperator;
+import ar.edu.unsl.backend.model.persistence.UserOperator2;
 import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
 
 public class UserService extends Service
 {
-    private boolean allFieldsOk(String id, String name, String userName, String website, String email, String phone)
+    private IUserOperator operator;
+
+    public UserService()
+    {
+        //this.operator = new UserOperator(this);
+        this.operator = new UserOperator2(this);
+    }
+
+    private boolean allFieldsOk(String name, String userName, String website, String email, String phone)
     {
         boolean ret = false;
 
-        if(this.getExpressionChecker().onlyNumbers(id, false) && this.getExpressionChecker().composedName(name) &&
-            this.getExpressionChecker().userName(userName) && this.getExpressionChecker().isEmail(email, false) &&
-            this.getExpressionChecker().onlyNumbers(phone, true))
-            ret = true;
+        if(this.getExpressionChecker().composedName(name) && this.getExpressionChecker().userName(userName) &&
+            this.getExpressionChecker().isEmail(email, false) && this.getExpressionChecker().onlyNumbers(phone, true))
+            {
+                ret = true;
+            }
 
         return ret;
     }
@@ -32,7 +43,7 @@ public class UserService extends Service
             @Override
             protected Void call() throws Exception
             {
-                List<User> users = UserOperator.getOperator().findAll();
+                List<User> users = operator.findAll();
 
                 getServiceSubscriber().closeProcessIsWorking(customAlert);
                 if(users != null)
@@ -52,25 +63,38 @@ public class UserService extends Service
     }
     */
 
+    
     public void searchUsers() throws Exception
     {
-        UserOperator.getOperator(this).findAll();
+        List<User> users = this.operator.findAll();
+        if(users != null)
+        {
+            ((UserServiceSubscriber)this.getServiceSubscriber()).showUsers(users);
+        }
     }
+    
 
-    public void searchUser(Integer id) throws Exception
+    public void searchUser(String id) throws Exception
     {
-        UserOperator.getOperator(this).find(id);
+        if(this.getExpressionChecker().onlyNumbers(id, false))
+        {
+            User user = this.operator.find(Integer.parseInt(id));
+            
+            if(user != null)
+            {
+                ((UserServiceSubscriber)this.getServiceSubscriber()).showUser(user);
+            }
+            
+        }
     }
 
-    public void registerUser(String id, String name, String userName, String website, String email, String phone) throws Exception
+    public void registerUser(String name, String userName, String website, String email, String phone) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Wait a moment while the process is done.");
 
-        if(allFieldsOk(id, name, userName, website, email, phone))
+        if(allFieldsOk(name, userName, website, email, phone))
         {
-            UserService userService = this;
             User newUser = new User();
-            newUser.setId(Integer.parseInt(id));
             newUser.setName(name);
             newUser.setUserName(userName);
             newUser.setWebsite(website);
@@ -82,7 +106,7 @@ public class UserService extends Service
                 @Override
                 protected Void call() throws Exception
                 {
-                    User user = UserOperator.getOperator(userService).insert(newUser);
+                    User user = operator.insert(newUser);
 
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
 

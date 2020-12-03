@@ -16,8 +16,6 @@ import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
 public class UserFormViewCntlr extends ViewCntlr implements UserServiceSubscriber
 {
     // ================================= FXML variables =================================
-    @FXML private TextField id;
-    @FXML private Label invalidId;
     @FXML private Label invalidName;
     @FXML private TextField name;
     @FXML private Label invalidUserName;
@@ -32,20 +30,6 @@ public class UserFormViewCntlr extends ViewCntlr implements UserServiceSubscribe
     @FXML private Label invalidLeaderId;
 
     // ================================= FXML methods =================================
-    @FXML
-    private void idCheck()
-    {
-        if(this.getExpressionChecker().onlyNumbers(this.id.getText(), false))
-        {
-            this.invalidId.setVisible(false);
-        }
-        else
-        {
-            this.invalidId.setText("Invalid format");
-            this.invalidId.setVisible(true);
-        }
-    }
-
     @FXML
     private void nameCheck()
     {
@@ -105,7 +89,7 @@ public class UserFormViewCntlr extends ViewCntlr implements UserServiceSubscribe
     @FXML
     private void registerButtonPressed() throws Exception
     {
-        ((UserService)this.getService(0)).registerUser(this.id.getText(), this.name.getText(), this.userName.getText(),
+        ((UserService)this.getService(0)).registerUser(this.name.getText(), this.userName.getText(),
                 this.website.getText(), this.email.getText(), this.phone.getText());
     }
     // ================================= private methods =================================
@@ -134,7 +118,6 @@ public class UserFormViewCntlr extends ViewCntlr implements UserServiceSubscribe
         new CustomAlert(AlertType.INFORMATION, "User registered", "User info:\n\n"+
         "id: "+user.getId()+"\nname: "+user.getName()+"\nuser name: "+user.getUserName()+"\ne-mail: "+user.getEmail()+
         "\nphone: "+user.getPhone()+"\nwebsite: "+user.getWebsite()).customShow();
-
     }
 
     @Override

@@ -7,12 +7,12 @@ import java.util.List;
  * responable of all persistence operations for an specific entity of the domain.
  * @param <Entity> The class that represent an entity of the domain.
  */
-public interface CrudOperator<Entity> 
+public interface CrudOperator<Entity>
 {
     /**
      * Registers persistently an entity of the domain.
      * @param entity The entity to be registered.
-     * @return A code for errors checking. 0 represent that an error has occurred.
+     * @return the entity registered.
      */
     Entity insert(Entity entity) throws Exception;
 
@@ -21,14 +21,14 @@ public interface CrudOperator<Entity>
      * This method is supposed to be more eficient when a large number
      * of insertion is needed.
      * @param list The list of entities to be registered.
-     * @return A code for errors checking. 0 represent that an error has occurred.
+     * @return the list of entities registered.
      */
     List<Entity> insertMany(List<Entity> list) throws Exception;
     
     /**
      * Updates persistently an entity of the domain.
      * @param entity The entity to be updated.
-     * @return A code for errors checking. 0 represent that an error has occurred.
+     * @return the entity updated.
      */
     Entity update(Entity entity) throws Exception;
 

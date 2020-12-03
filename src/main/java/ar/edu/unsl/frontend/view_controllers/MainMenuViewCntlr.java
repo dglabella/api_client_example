@@ -10,9 +10,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Alert.AlertType;
 import ar.edu.unsl.backend.util.CustomAlert;
 import ar.edu.unsl.backend.model.entities.User;
 import ar.edu.unsl.backend.model.services.UserService;
@@ -34,6 +34,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
     @FXML private TableColumn<User, String> website;
 
     @FXML private TextField searchField;
+    @FXML private TextField searchUser;
     @FXML private ImageView catButton;
 
     // ================================== FXML methods ==================================
@@ -42,7 +43,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
     {
         if(this.users.getSelectionModel().getSelectedIndex() > -1)
         {
-
+            this.showUser(this.users.getSelectionModel().getSelectedItem());
         }
     }
 
@@ -64,7 +65,14 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
     @FXML
     private void searchUserButtonPressed()
     {
-        
+        try
+        {
+            ((UserService)this.getService(0)).searchUser(this.searchUser.getText());   
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
     }
 
     // ================================= private methods =================================
@@ -151,7 +159,9 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
     @Override
     public void showUser(User user)
     {
-        // Do nothing
+        new CustomAlert(AlertType.INFORMATION, "User registered", "User info:\n\n"+
+        "id: "+user.getId()+"\nname: "+user.getName()+"\nuser name: "+user.getUserName()+"\ne-mail: "+user.getEmail()+
+        "\nphone: "+user.getPhone()+"\nwebsite: "+user.getWebsite()).customShow();
     }
 
     @Override
