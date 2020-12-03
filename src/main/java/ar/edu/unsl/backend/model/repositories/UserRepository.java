@@ -1,15 +1,14 @@
 package ar.edu.unsl.backend.model.repositories;
 
 import java.util.List;
-
-import ar.edu.unsl.backend.model.entities.User;
-import ar.edu.unsl.backend.model.persistence.UserOperator;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.Body;
+//import retrofit2.http.Query;
+import ar.edu.unsl.backend.model.entities.User;
+import ar.edu.unsl.backend.model.persistence.UserOperator;
 
 public interface UserRepository
 {

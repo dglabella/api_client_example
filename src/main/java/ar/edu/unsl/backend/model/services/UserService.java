@@ -7,12 +7,21 @@ import ar.edu.unsl.backend.util.CustomAlert;
 import ar.edu.unsl.backend.model.entities.User;
 import ar.edu.unsl.backend.model.persistence.UserOperator;
 import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class UserService extends Service implements Callback<List<User>>
+public class UserService extends Service
 {
+    private boolean allFieldsOk(String id, String name, String userName, String website, String email, String phone)
+    {
+        boolean ret = false;
+
+        if(this.getExpressionChecker().onlyNumbers(id, false) && this.getExpressionChecker().composedName(name) &&
+            this.getExpressionChecker().userName(userName) && this.getExpressionChecker().isEmail(email, false) &&
+            this.getExpressionChecker().onlyNumbers(phone, true))
+            ret = true;
+
+        return ret;
+    }
+    
     /*
     public void searchUsers() throws Exception
     {
@@ -48,22 +57,49 @@ public class UserService extends Service implements Callback<List<User>>
         UserOperator.getOperator(this).findAll();
     }
 
-    @Override
-    public void onResponse(Call<List<User>> call, Response<List<User>> response)
+    public void searchUser(Integer id) throws Exception
     {
-        if(response.isSuccessful())
+        UserOperator.getOperator(this).find(id);
+    }
+
+    public void registerUser(String id, String name, String userName, String website, String email, String phone) throws Exception
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Wait a moment while the process is done.");
+
+        if(allFieldsOk(id, name, userName, website, email, phone))
         {
-            ((UserServiceSubscriber)this.getServiceSubscriber()).showUsers(response.body());
+            UserService userService = this;
+            User newUser = new User();
+            newUser.setId(Integer.parseInt(id));
+            newUser.setName(name);
+            newUser.setUserName(userName);
+            newUser.setWebsite(website);
+            newUser.setEmail(email);
+            newUser.setPhone(phone);
+
+            Task<Void> task = new Task<>()
+            {
+                @Override
+                protected Void call() throws Exception
+                {
+                    User user = UserOperator.getOperator(userService).insert(newUser);
+
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+
+                    if(user != null)
+                    {
+                        ((UserServiceSubscriber)getServiceSubscriber()).showUser(user);
+                    }
+
+                    return null;
+                }
+            };
+            Platform.runLater(task);
         }
         else
         {
-            this.getServiceSubscriber().showError("Error has occurred", response.errorBody().toString(), new Exception("error response"));
+            getServiceSubscriber().closeProcessIsWorking(customAlert);
+            this.getServiceSubscriber().showError("Some fields are in the wrong format or need to be completed");
         }
-    }
-
-    @Override
-    public void onFailure(Call<List<User>> call, Throwable t)
-    {
-        this.getServiceSubscriber().showError("User services fail on retrieve a response: "+t.getLocalizedMessage());
-    }
+	}
 }

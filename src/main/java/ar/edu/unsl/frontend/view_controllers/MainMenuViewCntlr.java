@@ -10,8 +10,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.SelectionMode;
+import ar.edu.unsl.backend.util.CustomAlert;
 import ar.edu.unsl.backend.model.entities.User;
 import ar.edu.unsl.backend.model.services.UserService;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -57,6 +59,12 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
     private void newUserButtonPressed()
     {
         this.createStage("User registration form", "userForm", new UserService()).getStage().show();
+    }
+
+    @FXML
+    private void searchUserButtonPressed()
+    {
+        
     }
 
     // ================================= private methods =================================
@@ -143,7 +151,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements UserServiceSubs
     @Override
     public void showUser(User user)
     {
-        // TODO Auto-generated method stub
+        // Do nothing
     }
 
     @Override

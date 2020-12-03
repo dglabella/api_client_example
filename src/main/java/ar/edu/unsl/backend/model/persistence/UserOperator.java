@@ -1,19 +1,19 @@
 package ar.edu.unsl.backend.model.persistence;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import ar.edu.unsl.App;
-import ar.edu.unsl.backend.model.entities.User;
-import ar.edu.unsl.backend.model.interfaces.IUserOperator;
-import ar.edu.unsl.backend.model.repositories.UserRepository;
-import ar.edu.unsl.backend.model.services.UserService;
-import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
+import ar.edu.unsl.App;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import okhttp3.OkHttpClient;
+import java.util.concurrent.TimeUnit;
+import ar.edu.unsl.backend.model.entities.User;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ar.edu.unsl.backend.model.services.UserService;
+import ar.edu.unsl.backend.model.interfaces.IUserOperator;
+import ar.edu.unsl.backend.model.repositories.UserRepository;
+import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
 
 public class UserOperator implements IUserOperator
 {
@@ -25,7 +25,7 @@ public class UserOperator implements IUserOperator
     public final static String RESOURCE = "/users";
     public final static String SINGLE_RESOURCE = RESOURCE + "/{" + ID + "}";
 
-    private static UserOperator operator;
+    static UserOperator operator;
 
     private UserService userService;
     private UserRepository userRepository;
@@ -34,7 +34,9 @@ public class UserOperator implements IUserOperator
 
     private UserOperator(UserService userService)
     {
-        // HttpClient and Rest Client can be inyected for more de
+        this.userService = userService;
+
+        // HttpClient and Rest Client can be inyected for more decoupling
         this.okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(REQUEST_CONNECT_TIMEOUT_TOLERANCE, TimeUnit.SECONDS)
                 .readTimeout(REQUEST_READ_TIMEOUT_TOLERANCE, TimeUnit.SECONDS)
@@ -58,6 +60,7 @@ public class UserOperator implements IUserOperator
         return UserOperator.operator;
     }
 
+    /*
     @Override
     public User insert(User user) throws Exception
     {
@@ -83,6 +86,25 @@ public class UserOperator implements IUserOperator
             };
         });
         return null;
+    }
+    */
+
+    @Override
+    public User insert(User user) throws Exception
+    {
+        User ret = null;
+        Response<User> response = this.userRepository.postUser(user).execute();
+
+        if(response.isSuccessful())
+        {
+            ret = response.body();
+        }
+        else
+        {
+            this.userService.getServiceSubscriber().showError("User registration error. Body:\n"+response.errorBody().toString());
+        }
+        
+        return ret;
     }
 
     @Override

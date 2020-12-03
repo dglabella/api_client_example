@@ -166,6 +166,30 @@ public class ExpressionChecker
         return ret;
     }
 
+    /**
+     *
+     * Username consists of alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase.
+     * Username allowed of the dot (.), underscore (_), and hyphen (-).
+     * The dot (.), underscore (_), or hyphen (-) must not be the first or last character.
+     * The dot (.), underscore (_), or hyphen (-) does not appear consecutively, e.g., java..regex
+     * The number of characters must be between 5 to 20.
+     * @param string The string to check.
+     * @return true if condition are satisfied, false if not.
+     */
+    public boolean userName(String string)
+    {
+        boolean ret;
+
+        pattern = Pattern.compile("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$");
+
+        if (pattern.matcher(string).matches())
+            ret = true; 
+        else
+            ret = false;
+        
+        return ret;
+    }
+
     public boolean isCatalogueCode(String string, boolean allowEmpty)
     {
         boolean ret;

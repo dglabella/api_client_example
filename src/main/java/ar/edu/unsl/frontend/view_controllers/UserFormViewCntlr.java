@@ -1,14 +1,19 @@
 package ar.edu.unsl.frontend.view_controllers;
 
 import java.net.URL;
+import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
+import ar.edu.unsl.backend.util.CustomAlert;
+import javafx.scene.control.Alert.AlertType;
+import ar.edu.unsl.backend.model.entities.User;
+import ar.edu.unsl.backend.model.services.UserService;
+import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
 
-public class UserFormViewCntlr extends ViewCntlr
+public class UserFormViewCntlr extends ViewCntlr implements UserServiceSubscriber
 {
     // ================================= FXML variables =================================
     @FXML private TextField id;
@@ -36,22 +41,8 @@ public class UserFormViewCntlr extends ViewCntlr
         }
         else
         {
-            this.invalidId.setText("Dato invalido");
+            this.invalidId.setText("Invalid format");
             this.invalidId.setVisible(true);
-        }
-    }
-
-    @FXML
-    private void dniCheck()
-    {
-        if(this.getExpressionChecker().onlyNumbers(this.dni.getText(), true))
-        {
-            this.invalidDni.setVisible(false);
-        }
-        else
-        {
-            this.invalidDni.setText("Dato invalido");
-            this.invalidDni.setVisible(true);
         }
     }
 
@@ -64,22 +55,22 @@ public class UserFormViewCntlr extends ViewCntlr
         }
         else
         {
-            this.invalidName.setText("Dato invalido");
+            this.invalidName.setText("Invalid format");
             this.invalidName.setVisible(true);
         }  
     }
 
     @FXML
-    private void lastNameCheck()
+    private void userNameCheck()
     {
-        if(this.getExpressionChecker().composedName(this.lastName.getText()))
+        if(this.getExpressionChecker().userName(this.userName.getText()))
         {
-            this.invalidLastName.setVisible(false);
+            this.invalidUserName.setVisible(false);
         }
         else
         {
-            this.invalidLastName.setText("Dato invalido");
-            this.invalidLastName.setVisible(true);
+            this.invalidUserName.setText("Invalid format");
+            this.invalidUserName.setVisible(true);
         }
     }
 
@@ -92,29 +83,30 @@ public class UserFormViewCntlr extends ViewCntlr
         }
         else
         {
-            this.invalidEmail.setText("Dato invalido");
+            this.invalidEmail.setText("Invalid format");
             this.invalidEmail.setVisible(true);
         }  
     }
 
     @FXML
-    private void phoneNumberCheck()
+    private void phoneCheck()
     {
-        if(this.getExpressionChecker().onlyNumbers(this.phoneNumber.getText(), true))
+        if(this.getExpressionChecker().onlyNumbers(this.phone.getText(), true))
         {
-            this.invalidPhoneNumber.setVisible(false);
+            this.invalidPhone.setVisible(false);
         }
         else
         {
-            this.invalidPhoneNumber.setText("Dato invalido");
-            this.invalidPhoneNumber.setVisible(true);
+            this.invalidPhone.setText("Invalid format");
+            this.invalidPhone.setVisible(true);
         }  
     }
 
     @FXML
     private void registerButtonPressed() throws Exception
     {
-
+        ((UserService)this.getService(0)).registerUser(this.id.getText(), this.name.getText(), this.userName.getText(),
+                this.website.getText(), this.email.getText(), this.phone.getText());
     }
     // ================================= private methods =================================
 
@@ -135,4 +127,20 @@ public class UserFormViewCntlr extends ViewCntlr
     }
 
     // ================================= service subscriber methods ==================================
+
+    @Override
+    public void showUser(User user)
+    {
+        new CustomAlert(AlertType.INFORMATION, "User registered", "User info:\n\n"+
+        "id: "+user.getId()+"\nname: "+user.getName()+"\nuser name: "+user.getUserName()+"\ne-mail: "+user.getEmail()+
+        "\nphone: "+user.getPhone()+"\nwebsite: "+user.getWebsite()).customShow();
+
+    }
+
+    @Override
+    public void showUsers(List<User> users)
+    {
+        // TODO Auto-generated method stub
+
+    }
 }

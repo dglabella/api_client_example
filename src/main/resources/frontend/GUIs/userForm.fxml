@@ -4,6 +4,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -72,6 +73,9 @@
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
+               <tooltip>
+                  <Tooltip text="Username consists of alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase.&#10;Username allowed of the dot (.), underscore (_), and hyphen (-).&#10;The dot (.), underscore (_), or hyphen (-) must not be the first or last character.&#10;The dot (.), underscore (_), or hyphen (-) does not appear consecutively.&#10;The number of characters must be between 5 to 20." />
+               </tooltip>
             </Label>
             <Label fx:id="invalidWebsite" layoutX="188.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
@@ -110,7 +114,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="phone" layoutX="183.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#phoneNumberCheck" prefHeight="30.0" prefWidth="190.0" promptText="5554356378" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <TextField fx:id="phone" layoutX="183.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#phoneCheck" prefHeight="30.0" prefWidth="190.0" promptText="5554356378" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
             <Label fx:id="invalidPhone" layoutX="183.0" layoutY="146.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
