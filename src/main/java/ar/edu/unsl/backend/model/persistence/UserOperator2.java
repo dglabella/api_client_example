@@ -1,23 +1,22 @@
 package ar.edu.unsl.backend.model.persistence;
 
-import java.io.IOException;
 import java.util.List;
 import ar.edu.unsl.App;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import java.io.IOException;
+import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import ar.edu.unsl.backend.model.entities.User;
-import ar.edu.unsl.backend.model.interfaces.IUserOperator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.client.config.RequestConfig;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.http.impl.client.HttpClientBuilder;
 import ar.edu.unsl.backend.model.services.UserService;
+import org.apache.http.impl.client.CloseableHttpClient;
+import ar.edu.unsl.backend.model.interfaces.IUserOperator;
+import org.apache.http.client.methods.CloseableHttpResponse;
 
 public class UserOperator2 implements IUserOperator
 {
@@ -47,37 +46,31 @@ public class UserOperator2 implements IUserOperator
     public User insert(User user) throws Exception
     {
         User ret = null;
+        
+        ObjectMapper mapper = new ObjectMapper();
+
+        String jsonUser = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user);
+
+        System.out.println(jsonUser);
+
+        StringEntity postingString = new StringEntity(jsonUser);
+
+        System.out.println("String entity = "+postingString);
+
+        HttpPost httpPost = null;
+        CloseableHttpResponse response = null;
+
         try
         {
-            ObjectMapper mapper = new ObjectMapper();
-
-            String jsonUser = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user);
-
-            System.out.println(jsonUser);
-
-            StringEntity postingString = new StringEntity(jsonUser);
-
-            System.out.println("String entity = "+postingString);
-
-            try
-            {
-                
-            }
-            catch (Exception exception)
-            {
-                //TODO: handle exception
-            }
-            
-            HttpPost httpPost = new HttpPost(App.API_HOSTNAME + RESOURCE);
+            httpPost = new HttpPost(App.API_HOSTNAME + RESOURCE);
             httpPost.setEntity(postingString);
             httpPost.setHeader("Content-type", "application/json");
 
             System.out.println("request = "+httpPost);
 
-            CloseableHttpResponse response = this.httpClient.execute(httpPost);
+            response = this.httpClient.execute(httpPost);
 
             System.out.println("response = "+response);
-
             if (200 <= response.getStatusLine().getStatusCode() && response.getStatusLine().getStatusCode() < 300)
             {
                 HttpEntity entity = response.getEntity();
@@ -85,22 +78,20 @@ public class UserOperator2 implements IUserOperator
                 System.out.println("http entity = "+response.getEntity());
 
                 ret = mapper.readValue(EntityUtils.toString(entity), new TypeReference<User>(){});
+
+                //Clean the steam
                 EntityUtils.consume(entity);
             }
-
-            response.close();
-            httpPost.releaseConnection();
         }
         catch (Exception exception)
         {
             exception.printStackTrace();
-            ret = null;
         }
         finally
         {
-            this.httpClient.close();
+            response.close();
+            httpPost.releaseConnection();
         }
-
         return ret;
     }
 
@@ -123,10 +114,12 @@ public class UserOperator2 implements IUserOperator
     {
         List<User> ret = null;
 
-        HttpGet getHttp = new HttpGet(App.API_HOSTNAME + RESOURCE);
-        HttpResponse response =  null;
+        HttpGet getHttp = null;
+        CloseableHttpResponse response =  null;
+
         try
         {
+            getHttp = new HttpGet(App.API_HOSTNAME + RESOURCE);
             response = this.httpClient.execute(getHttp);
             int statusCode = response.getStatusLine().getStatusCode();
             if(statusCode >= 200 && statusCode < 300)
@@ -135,17 +128,23 @@ public class UserOperator2 implements IUserOperator
                 ObjectMapper mapper = new ObjectMapper();
                 //mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 ret = mapper.readValue(EntityUtils.toString(entity), new TypeReference<List<User>>() {});
+
+                //Clean the steam
+                EntityUtils.consume(entity);
             }
             else
             {
                 System.err.println("Error Inesperado STATUS: " + statusCode);
             }
-
-            this.httpClient.close();
         }
         catch (IOException exception)
         {
             exception.printStackTrace();
+        }
+        finally
+        {
+            response.close();
+            getHttp.releaseConnection();
         }
 
         return ret;
@@ -156,30 +155,39 @@ public class UserOperator2 implements IUserOperator
     {
         User ret = null;
 
-        HttpGet getHttp = new HttpGet(App.API_HOSTNAME + SINGLE_RESOURCE);
+        HttpGet getHttp = null;
         CloseableHttpResponse response =  null;
 
         try
         {
+            getHttp = new HttpGet(App.API_HOSTNAME + RESOURCE + "/" + id);
             response = this.httpClient.execute(getHttp);
+
             int statusCode = response.getStatusLine().getStatusCode();
+
             if(statusCode >= 200 && statusCode < 300)
             {
                 HttpEntity entity = response.getEntity();
                 ObjectMapper mapper = new ObjectMapper();
                 //mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 ret = mapper.readValue(EntityUtils.toString(entity), new TypeReference<User>() {});
+
+                //Clean the steam
+                EntityUtils.consume(entity);
             }
             else
             {
                 System.err.println("Error Inesperado STATUS: " + statusCode);
             }
-            response.close();
-            this.httpClient.close();
         }
         catch (IOException exception)
         {
             exception.printStackTrace();
+        }
+        finally
+        {
+            response.close();
+            getHttp.releaseConnection();
         }
 
         return ret;
@@ -188,7 +196,6 @@ public class UserOperator2 implements IUserOperator
     @Override
     public User delete(Integer id) throws Exception
     {
-        // TODO Auto-generated method stub
         return null;
     } 
 }

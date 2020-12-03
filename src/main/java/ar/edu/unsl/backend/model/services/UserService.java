@@ -16,8 +16,8 @@ public class UserService extends Service
 
     public UserService()
     {
-        //this.operator = new UserOperator(this);
-        this.operator = new UserOperator2(this);
+        this.operator = new UserOperator(this);
+        //this.operator = new UserOperator2(this);
     }
 
     private boolean allFieldsOk(String name, String userName, String website, String email, String phone)
@@ -36,7 +36,7 @@ public class UserService extends Service
     /*
     public void searchUsers() throws Exception
     {
-        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Wait a moment while the process is done.");
+        //CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Wait a moment while the process is done.");
         
         Task<Void> task = new Task<>()
         {
@@ -45,7 +45,7 @@ public class UserService extends Service
             {
                 List<User> users = operator.findAll();
 
-                getServiceSubscriber().closeProcessIsWorking(customAlert);
+                //getServiceSubscriber().closeProcessIsWorking(customAlert);
                 if(users != null)
                 {
                     ((UserServiceSubscriber)getServiceSubscriber()).showUsers(users);
@@ -72,6 +72,7 @@ public class UserService extends Service
             ((UserServiceSubscriber)this.getServiceSubscriber()).showUsers(users);
         }
     }
+    
     
 
     public void searchUser(String id) throws Exception

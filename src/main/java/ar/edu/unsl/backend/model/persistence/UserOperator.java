@@ -1,13 +1,14 @@
 package ar.edu.unsl.backend.model.persistence;
 
-import java.io.IOException;
 import java.util.List;
 import retrofit2.Call;
 import ar.edu.unsl.App;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import java.io.IOException;
 import okhttp3.OkHttpClient;
+import javafx.application.Platform;
 import java.util.concurrent.TimeUnit;
 import ar.edu.unsl.backend.model.entities.User;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,7 +16,6 @@ import ar.edu.unsl.backend.model.services.UserService;
 import ar.edu.unsl.backend.model.interfaces.IUserOperator;
 import ar.edu.unsl.backend.model.repositories.UserRepository;
 import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
-import javafx.application.Platform;
 
 public class UserOperator implements IUserOperator
 {
