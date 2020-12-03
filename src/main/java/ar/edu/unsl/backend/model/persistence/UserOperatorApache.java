@@ -18,7 +18,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import ar.edu.unsl.backend.model.interfaces.IUserOperator;
 import org.apache.http.client.methods.CloseableHttpResponse;
 
-public class UserOperator2 implements IUserOperator
+public class UserOperatorApache implements IUserOperator
 {
     private final static int REQUEST_CONNECT_TIMEOUT_TOLERANCE = 20 * 1000;
     // private final static int REQUEST_READ_TIMEOUT_TOLERANCE = 5*1000;
@@ -28,12 +28,12 @@ public class UserOperator2 implements IUserOperator
     public final static String RESOURCE = "/users";
     public final static String SINGLE_RESOURCE = RESOURCE + "/" + ID;
 
-    private static UserOperator2 operator;
+    private static UserOperatorApache operator;
 
     private UserService userService;
     private CloseableHttpClient httpClient;
 
-    public UserOperator2(UserService userService)
+    public UserOperatorApache(UserService userService)
     {
         this.userService = userService;
         // CloseableHttpClient clienteHttp = HttpClients.createDefault();

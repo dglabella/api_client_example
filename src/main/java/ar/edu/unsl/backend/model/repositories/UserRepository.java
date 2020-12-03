@@ -8,16 +8,16 @@ import retrofit2.http.Path;
 import retrofit2.http.Body;
 //import retrofit2.http.Query;
 import ar.edu.unsl.backend.model.entities.User;
-import ar.edu.unsl.backend.model.persistence.UserOperator;
+import ar.edu.unsl.backend.model.persistence.UserOperatorRetrofit;
 
 public interface UserRepository
 {
-    @GET(UserOperator.RESOURCE)
+    @GET(UserOperatorRetrofit.RESOURCE)
     Call<List<User>> findAll();
 
-    @GET(UserOperator.SINGLE_RESOURCE)
-    Call<User> find(@Path(UserOperator.ID) Integer id);
+    @GET(UserOperatorRetrofit.SINGLE_RESOURCE)
+    Call<User> find(@Path(UserOperatorRetrofit.ID) Integer id);
 
-    @POST(UserOperator.RESOURCE)
+    @POST(UserOperatorRetrofit.RESOURCE)
     Call<User> postUser(@Body User user);
 }

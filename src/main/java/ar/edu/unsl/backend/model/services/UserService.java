@@ -6,8 +6,8 @@ import javafx.application.Platform;
 import ar.edu.unsl.backend.util.CustomAlert;
 import ar.edu.unsl.backend.model.entities.User;
 import ar.edu.unsl.backend.model.interfaces.IUserOperator;
-import ar.edu.unsl.backend.model.persistence.UserOperator;
-import ar.edu.unsl.backend.model.persistence.UserOperator2;
+import ar.edu.unsl.backend.model.persistence.UserOperatorApache;
+import ar.edu.unsl.backend.model.persistence.UserOperatorRetrofit;
 import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
 
 public class UserService extends Service
@@ -16,8 +16,8 @@ public class UserService extends Service
 
     public UserService()
     {
-        this.operator = new UserOperator(this);
-        //this.operator = new UserOperator2(this);
+        this.operator = new UserOperatorRetrofit(this);
+        //this.operator = new UserOperatorApache(this);
     }
 
     private boolean allFieldsOk(String name, String userName, String website, String email, String phone)

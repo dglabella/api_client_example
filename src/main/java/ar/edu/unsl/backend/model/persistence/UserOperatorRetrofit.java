@@ -17,7 +17,7 @@ import ar.edu.unsl.backend.model.interfaces.IUserOperator;
 import ar.edu.unsl.backend.model.repositories.UserRepository;
 import ar.edu.unsl.frontend.service_subscribers.UserServiceSubscriber;
 
-public class UserOperator implements IUserOperator
+public class UserOperatorRetrofit implements IUserOperator
 {
     private final static int REQUEST_CONNECT_TIMEOUT_TOLERANCE = 20;
     private final static int REQUEST_READ_TIMEOUT_TOLERANCE = 5;
@@ -27,14 +27,14 @@ public class UserOperator implements IUserOperator
     public final static String RESOURCE = "/users";
     public final static String SINGLE_RESOURCE = RESOURCE + "/{" + ID + "}";
 
-    static UserOperator operator;
+    static UserOperatorRetrofit operator;
 
     private UserService userService;
     private UserRepository userRepository;
     private OkHttpClient okHttpClient;
     private Retrofit retrofit;
 
-    public UserOperator(UserService userService)
+    public UserOperatorRetrofit(UserService userService)
     {
         this.userService = userService;
 
