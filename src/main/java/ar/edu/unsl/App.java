@@ -40,9 +40,10 @@ public class App extends Application
         stage.setOnCloseRequest(new EventHandler<WindowEvent>()
         {
             @Override
-            public void handle(WindowEvent e)
+            public void handle(WindowEvent event)
             {
-                new CustomAlert(AlertType.INFORMATION, "EXIT", "Do you want to close this system?")
+                event.consume();
+                new CustomAlert(AlertType.CONFIRMATION, "EXIT", "Do you want to close this system?")
                 .customShow().ifPresent(response ->
                 {
                     if(response == ButtonType.OK)
