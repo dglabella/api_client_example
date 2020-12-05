@@ -9,6 +9,9 @@ import retrofit2.Retrofit;
 import java.io.IOException;
 import okhttp3.OkHttpClient;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import ar.edu.unsl.backend.model.entities.User;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -100,6 +103,7 @@ public class UserOperatorRetrofit implements IUserOperator
                 @Override
                 public void onResponse(Call<List<User>> call, Response<List<User>> response)
                 {
+                    
                     if(response.isSuccessful())
                     {
                         ((UserServiceSubscriber)userService.getServiceSubscriber()).showUsers(response.body());
@@ -136,7 +140,7 @@ public class UserOperatorRetrofit implements IUserOperator
                         public void run()
                         {
                             ((UserServiceSubscriber)userService.getServiceSubscriber()).showUser(response.body());
-                        } 
+                        }
                     });
                 }
                 else

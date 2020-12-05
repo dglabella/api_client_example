@@ -1,8 +1,9 @@
 package ar.edu.unsl.backend.model.services;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javafx.concurrent.Task;
-import javafx.application.Platform;
 import ar.edu.unsl.backend.util.CustomAlert;
 import ar.edu.unsl.backend.model.entities.User;
 import ar.edu.unsl.backend.model.interfaces.IUserOperator;
@@ -16,8 +17,8 @@ public class UserService extends Service
 
     public UserService()
     {
-        this.operator = new UserOperatorRetrofit(this);
-        //this.operator = new UserOperatorApache(this);
+        //this.operator = new UserOperatorRetrofit(this);
+        this.operator = new UserOperatorApache(this);
     }
 
     private boolean allFieldsOk(String name, String userName, String website, String email, String phone)
@@ -33,7 +34,7 @@ public class UserService extends Service
         return ret;
     }
     
-    /*
+    
     public void searchUsers() throws Exception
     {
         //CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Wait a moment while the process is done.");
@@ -59,11 +60,13 @@ public class UserService extends Service
             }
         };
         
-        Platform.runLater(task);
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        executorService.execute(task);
     }
-    */
+    
 
     
+    /*
     public void searchUsers() throws Exception
     {
         List<User> users = this.operator.findAll();
@@ -72,6 +75,7 @@ public class UserService extends Service
             ((UserServiceSubscriber)this.getServiceSubscriber()).showUsers(users);
         }
     }
+    */
     
     
 
@@ -119,7 +123,9 @@ public class UserService extends Service
                     return null;
                 }
             };
-            Platform.runLater(task);
+            
+            ExecutorService executorService = Executors.newFixedThreadPool(1);
+            executorService.execute(task);
         }
         else
         {
